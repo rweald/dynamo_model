@@ -3,6 +3,7 @@ require 'spec_helper'
 require 'dynamo_model/configuration'
 
 describe DynamoModel::Configuration do
+
   describe ".load_configuration" do
     subject { DynamoModel::Configuration }
     before do
@@ -11,13 +12,11 @@ describe DynamoModel::Configuration do
     end
     it "should read config from 'config/dynamo_db.yml' by default" do
       File.should_receive(:read).with("config/dynamo_db.yml")
-
       subject.load_configuration
     end
 
     it "should read config from custom file if specified" do
       File.should_receive(:read).with("foo/bar.yml")
-
       subject.load_configuration("foo/bar.yml")
     end
 
@@ -26,4 +25,5 @@ describe DynamoModel::Configuration do
       subject.load_configuration.config["development"]["password"].should == "foobar"
     end
   end
+
 end
