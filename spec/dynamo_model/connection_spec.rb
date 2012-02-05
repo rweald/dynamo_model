@@ -50,6 +50,7 @@ describe DynamoModel::Connection do
         credentials[:secret_access_key].should == "bar"
       end
       subject.create_from_config
+      Object.send(:remove_const, :Rails)
     end
 
   end
