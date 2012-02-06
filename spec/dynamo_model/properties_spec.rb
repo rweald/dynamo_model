@@ -5,7 +5,7 @@ describe DynamoModel::Properties do
     include DynamoModel::Properties
     
     property :content
-    property :posted_at, :default => DateTime.now, :conversion => proc { |v| v.to_s }
+    property :posted_at, :default => Date.today, :conversion => proc { |v| v.to_s }
   end
 
   describe ".property" do
@@ -20,7 +20,7 @@ describe DynamoModel::Properties do
     end
 
     it "should return the default value if a normal value has not been set" do
-      tweet.posted_at.should == DateTime.now.to_s
+      tweet.posted_at.should == Date.today.to_s
     end
     
   end
