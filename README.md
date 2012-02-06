@@ -1,6 +1,6 @@
 #DynamoModel
 
-[![Build Status](https://secure.travis-ci.org/rweald/dynamo_model.png)](http://travis-ci.org/rweald/dynamo_model)
+[![Build Status](https://secure.travis-ci.org/rweald/dynamo_model.png?branch=master)](http://travis-ci.org/rweald/dynamo_model)
 
 Provies a simple mixin that allows you to persist objects to DynamoDB.
 
