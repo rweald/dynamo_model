@@ -37,9 +37,18 @@ module DynamoModel
       validate_type
     end
 
+    def value=(new_value)
+      if @options[:conversion]
+      @value = @options[:conversion].call(new_value)
+      else
+        @value = new_value
+      end
+      validate_type
+    end
+
     private
     def validate_type
-      raise "Invalid Dynamo Type" unless DynamoModel::VALID_TYPES.include?(value.class)
+      raise "Invalid Dynamo Type" unless DynamoModel::VALID_TYPES.include?(@value.class)
     end
 
   end
