@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   # s.add_runtime_dependency "rest-client"
   s.add_development_dependency "rspec"
   s.add_development_dependency "awesome_print"
+  s.add_development_dependency "guard-rspec"
 
   #This provides the low level interface to dynamo.
   s.add_dependency "aws-sdk"
