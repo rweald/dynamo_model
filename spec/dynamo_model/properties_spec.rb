@@ -20,7 +20,7 @@ describe DynamoModel::Properties do
     end
 
     it "should return the default value if a normal value has not been set" do
-      tweet.posted_at.to_date.should == DateTime.today.to_date
+      tweet.posted_at.should == DateTime.now.to_s
     end
     
   end

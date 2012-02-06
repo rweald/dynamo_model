@@ -11,6 +11,7 @@ module DynamoModel
 
     included do
       include ClassMethods
+      attribute_method_suffix "="
     end
 
     module ClassMethods
@@ -20,7 +21,7 @@ module DynamoModel
       end
 
       def properties
-        @properties || {}.with_indifferent_access
+        @properties = @properties || {}.with_indifferent_access
       end
 
       def define_attribute_methods
@@ -29,25 +30,45 @@ module DynamoModel
     end
 
     def attributes
-      raw_attributes.reject { |k, v| !respond_to?(k) }
+      @attributes || raw_attributes
     end
 
     def raw_attributes
-      @attributes = @attributes || {}
-      self.class.properties.values.inject(@attributes.with_indifferent_access) do |hash, prop|
-        hash[prop.key] = attribute(prop.key)
+      @attributes = self.class.properties.values.inject({}) do |hash, prop|
+        hash[prop.key] = prop.default_value
         hash
+      end.with_indifferent_access
+    end
+
+    def [](attr_name)
+      attribute(attr_name)
+    end
+
+    def []=(attr_name, value)
+      self.send(:attribute=, attr_name, value)
+    end
+
+    def attribute(attr_name)
+      attributes[attr_name]
+    end
+
+    def attribute=(attr_name, value)
+      if prop = self.class.properties[attr_name]
+        @attributes[attr_name] = prop.convert_value(value)
+      else
+        raise "Invalid Property Value"
       end
     end
 
-
-    # @private
+    def attribute_method?(attr_name)
+      self.class.properties.include?(attr_name)
+    end
+    
     def method_missing(method, *args, &block)
       self.class.define_attribute_methods
       super
     end
 
-    # @private
     def respond_to?(*args)
       self.class.define_attribute_methods
       super
