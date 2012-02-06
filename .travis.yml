@@ -8,5 +8,6 @@ rvm:
 
 script: bundle exec rspec spec/
 
-whitelist:
-  - master
+branches:
+  only:
+    - master
