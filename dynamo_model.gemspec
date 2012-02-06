@@ -26,4 +26,7 @@ Gem::Specification.new do |s|
 
   #This provides the low level interface to dynamo.
   s.add_dependency "aws-sdk"
+  s.add_dependency "activemodel"
+  s.add_dependency "activesupport"
+
 end
