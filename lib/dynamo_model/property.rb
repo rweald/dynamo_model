@@ -1,31 +1,37 @@
 module DynamoModel
   class Property
     attr_reader :key
-    attr_accessor :value
+    attr_accessor :default_value
 
-    def initialize(key, value, options = {})
-      @key = key
-      @value = value
-      if options[:conversion]
-        @value = options[:conversion].call(@value)
-      end
+    def initialize(key, default_value, options = {})
       @options = options
-      validate_type
+      @key = key
+      @default_value = convert_value(default_value)
     end
 
-    def value=(new_value)
+    def convert_value(new_value)
+      return new_value if valid?(new_value)
+
       if @options[:conversion]
-      @value = @options[:conversion].call(new_value)
+        _value = @options[:conversion].call(new_value)
       else
-        @value = new_value
+        _value = new_value
       end
-      validate_type
+
+      validate_type(_value)
+      _value
+    end
+
+    def valid?(value)
+      DynamoModel::VALID_TYPES.include?(value.class)
     end
 
     private
-    def validate_type
-      raise "Invalid Dynamo Type" unless DynamoModel::VALID_TYPES.include?(@value.class)
+    def validate_type(value)
+      raise "Invalid Dynamo Type" unless valid?(value)
+      true
     end
+
 
   end
 end

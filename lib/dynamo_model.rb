@@ -6,7 +6,7 @@ require 'dynamo_model/migration'
 require 'dynamo_model/properties'
 
 module DynamoModel
-  VALID_TYPES = [String, Integer, Float, Fixnum, Array]
+  VALID_TYPES = [String, Integer, Float, Fixnum, Array, NilClass]
 
   def self.environment
     if defined?(Rails)
